@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sea Battle</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+
+  <body>
+    <h1>Sea Battle</h1>
+    <form action="single.html">
+      <button>Single Player</button>
+    </form>
+    <button id="multiPlayerButton">Multiplayer</button>
+
+    <div class="player p1">
+      Player 1
+      <div class="connected">Connected <span></span></div>
+      <div class="ready">Ready <span></span></div>
+    </div>
+    <div class="player p2">
+      Player 2
+      <div class="connected">Connected <span></span></div>
+      <div class="ready">Ready <span></span></div>
+    </div>
+
+    <div id="game-info" class="container">
+      <p>Turn: <span id="turn"></span></p>
+      <p>Info: <span id="info"></span></p>
+    </div>
+    <div id="game-boards" class="container"></div>
+    <div id="game-option" class="container">
+      <div id="ship-0" class="ship deck-one" draggable="true">
+        <div id="deck-one-0" class="deck"></div>
+      </div>
+      <div id="ship-1" class="ship deck-one" draggable="true">
+        <div id="deck-one-10" class="deck"></div>
+      </div>
+      <div id="ship-2" class="ship deck-one" draggable="true">
+        <div id="deck-one-20" class="deck"></div>
+      </div>
+      <div id="ship-3" class="ship deck-one" draggable="true">
+        <div id="deck-one-30" class="deck"></div>
+      </div>
+
+      <div id="ship-4" class="ship deck-two" draggable="true">
+        <div id="deck-two-40" class="deck"></div>
+        <div id="deck-two-41" class="deck"></div>
+      </div>
+
+      <div id="ship-5" class="ship deck-two" draggable="true">
+        <div id="deck-two-50" class="deck"></div>
+        <div id="deck-two-51" class="deck"></div>
+      </div>
+
+      <div id="ship-6" class="ship deck-two" draggable="true">
+        <div id="deck-two-60" class="deck"></div>
+        <div id="deck-two-61" class="deck"></div>
+      </div>
+
+      <div id="ship-7" class="ship deck-three" draggable="true">
+        <div id="deck-three-70" class="deck"></div>
+        <div id="deck-three-71" class="deck"></div>
+        <div id="deck-three-72" class="deck"></div>
+      </div>
+
+      <div id="ship-8" class="ship deck-three" draggable="true">
+        <div id="deck-three-80" class="deck"></div>
+        <div id="deck-three-81" class="deck"></div>
+        <div id="deck-three-82" class="deck"></div>
+      </div>
+
+      <div id="ship-9" class="ship deck-four" draggable="true">
+        <div id="deck-four-90" class="deck"></div>
+        <div id="deck-four-91" class="deck"></div>
+        <div id="deck-four-92" class="deck"></div>
+        <div id="deck-four-93" class="deck"></div>
+      </div>
+    </div>
+
+    <div class="setup-buttons container" id="setup-buttons">
+      <button id="start" class="btn">Start Game</button>
+      <button id="rotate" class="btn">Rotate Your Ships</button>
+      <button id="autoPlace" class="btn">Auto Place Ships</button>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
