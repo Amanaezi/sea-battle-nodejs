@@ -26,9 +26,13 @@ humanTurn = true;
 let enemySunkShips = [];
 let humanSunkShips = [];
 let start = false;
-let hits = 0;
-let lasthits = 0;
-let score = 0;
+
+let Ehits = 0;
+let Elasthits = 0;
+let enemyScore = 1;
+let Hhits = 0;
+let Hlasthits = 0;
+let humanScore = 1;
 
 function startMultiPlayer() {
   gameMode = "multiPlayer";
@@ -131,40 +135,40 @@ function startMultiPlayer() {
   }
 
   function revealSquare(classList) {
-  if (!gameOver) {
-    const enemySquare = document.querySelector(
-      `#enemy div[id='block-${shotFired}']`
-    );
-    console.log("shotFired " + shotFired);
-    const obj = Object.values(classList);
-
-    console.log(obj);
-    if (obj.includes("taken")) {
-      enemySquare.classList.add("boom");
-      info.innerHTML = "You hit enemy's ship!";
-      let classes = Array.from(obj);
-      classes = classes.filter(
-        (className) =>
-          className !== "block" &&
-          className !== "boom" &&
-          className !== "taken"
+    if (!gameOver) {
+      const enemySquare = document.querySelector(
+        `#enemy div[id='block-${shotFired}']`
       );
-      humanHits.push(...classes);
-      console.log(humanHits);
-      checkScore("human", humanHits, humanSunkShips);
-      turn.textContent = "Your Go"; // Stay on user's turn
-    } else {
-      info.textContent = "You missed it";
-      enemySquare.classList.add("empty");
-      turn.textContent = "Enemy's Go";
-      currentPlayer = "enemy"; // Change to enemy's turn
+      console.log("shotFired " + shotFired);
+      const obj = Object.values(classList);
+
+      console.log(obj);
+      if (obj.includes("taken")) {
+        enemySquare.classList.add("boom");
+        info.innerHTML = "You hit enemy's ship!";
+        let classes = Array.from(obj);
+        classes = classes.filter(
+          (className) =>
+            className !== "block" &&
+            className !== "boom" &&
+            className !== "taken"
+        );
+        humanHits.push(...classes);
+        console.log(humanHits);
+        checkScore("human", humanHits, humanSunkShips);
+        turn.textContent = "Enemy's Go";
+      } else {
+        info.textContent = "You missed it";
+        enemySquare.classList.add("empty");
+        turn.textContent = "Enemy's Go";
+        currentPlayer = "enemy";
+      }
+      const allBoardBlocks = document.querySelectorAll("#enemy div");
+      allBoardBlocks.forEach((block) =>
+        block.replaceWith(block.cloneNode(true))
+      );
     }
-    const allBoardBlocks = document.querySelectorAll("#enemy div");
-    allBoardBlocks.forEach((block) =>
-      block.replaceWith(block.cloneNode(true))
-    );
   }
-}
 
   // Кнопка Start Game для Multi Player
   startButton.addEventListener("click", () => {
@@ -330,8 +334,7 @@ allUserBlocks.forEach((userBlock) => {
 });
 
 function autoPlaceShips() {
-  if (!start)
-  {
+  if (!start) {
     const allUserBlocks = document.querySelectorAll("#human div");
     allUserBlocks.forEach((block) => block.classList.remove("taken", "deck-one", "deck-two", "deck-three", "deck-four"));
 
@@ -444,33 +447,43 @@ function checkScore(user, userHits, userSunkShips) {
   }
 
   ships.forEach((ship) => checkShip(ship.name, ship.length));
-  
   let totalShipSquares = 0;
   ships.forEach(ship => totalShipSquares += ship.length);
 
-  if (score === totalShipSquares) {
-    if (user === "human") {
+  if (user === "human") {
+    Hlasthits = Hhits;
+    Hhits += userHits.length - Hlasthits;
+
+    if (Hlasthits != 0) {
+      if (Hhits = 1) {
+        humanScore += Hlasthits;
+      }
+    }
+
+    if (humanScore === totalShipSquares) {
       info.textContent = "You won!";
+      gameOver = true;
     }
-    else {
+  }
+  else {
+    Elasthits = Ehits;
+    Ehits += userHits.length - Elasthits;
+
+    if (Elasthits != 0) {
+      if (Ehits = 1) {
+        enemyScore += Elasthits;
+      }
+    }
+
+    if (enemyScore === totalShipSquares) {
       info.textContent = "You lose!";
-    }
-    gameOver = true;
-  }
-
-  lasthits = hits;
-  hits += userHits.length - lasthits;
-
-  if(lasthits != 0)
-  {
-    if(hits = 1)
-    {
-      score += lasthits;
+      gameOver = true;
     }
   }
+
 
   console.log("userHits", user, userHits);
-  console.log(hits);
-  console.log(score);
+  console.log(humanScore);
+  console.log(enemyScore);
   console.log("userSunkShips", user, userSunkShips);
 }
